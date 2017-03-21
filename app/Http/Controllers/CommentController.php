@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use Illuminate\Http\Request;
-use App\User;
 
-class UserController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-      $this->middleware('auth');
-    }
-
     public function index()
     {
-      $users = \App\User::get();
-
-      return view('users.index',['users'=>$users]);
+        //
     }
 
     /**
@@ -42,31 +35,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inputs = $request->only(['post_id','content']);
+
+        Comment::create([
+            'post_id' => $inputs['post_id'],
+            'content' => $inputs['content'],
+            'user_id'  => \Auth::id(),
+        ]);
+
+        return back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Comment $comment)
     {
-        $user = \App\User::with(['posts' => function($query) {
-            $query->withCount('comments');
-        }])->find($id);
-
-        return view('users.show',['user'=>$user]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comment $comment)
     {
         //
     }
@@ -75,10 +72,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comment $comment)
     {
         //
     }
@@ -86,17 +83,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Comment $comment)
     {
-
-        $this->authorize('delete', $user);
-
-        $user->delete();
-
-        return redirect('/');
-
+        //
     }
 }

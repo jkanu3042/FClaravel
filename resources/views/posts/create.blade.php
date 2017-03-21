@@ -26,7 +26,9 @@
        @if($errors->has('description'))
        <p class="help-block">{{ $errors->first('description') }}</p>
        @endif
+
+       <input type="text" class="form-control" name="tags"  placeholder="태그를 입력해주세요. 여러개인 경우 ,로 연결해주세요.">
+       <button type="submit" class="btn btn-default">올리기</button>
    </div>
-   <button type="submit" class="btn btn-default">올리기</button>
   </form>
 @endsection

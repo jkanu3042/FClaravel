@@ -19,7 +19,6 @@ use Illuminate\Http\Request;
 
 Route::get('/',function(){
   return view('auth.login');
-
 });
 
 //Route::get('/users','UserController@index');
@@ -31,6 +30,7 @@ Route::resource('users','UserController',['names'=>['show'=>'profile']]);
 //Route::post('/posts','PostController@store')->name('posts.store')->middleware('hasFile:img');
 Route::resource('posts','PostController');
 
+Route::resource('comments','CommentController');
 
 Auth::routes();
 Route::get('/home','HomeController@index');

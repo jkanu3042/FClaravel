@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePostRequest;
 
@@ -64,11 +65,26 @@ class PostController extends Controller
 
       $user = $request->user();
 
-      \DB::table('posts')->insert([
-          'img_path' => $imgPath,
-          'description'=> $description,
-          'user_id' => $user->id,
-      ]);
+        $post = $user->posts()->create([
+            'img_path' => $imgPath,
+            'description' => $description,
+        ]);
+
+        $tagsInput = $request->input('tags');
+        if($tagsInput) {
+            $tags = explode(',',$tagsInput);
+
+            foreach($tags as $tag) {
+                $tag = \App\Tag::firstOrCreate([
+                    'name' => trim($tag)
+                ]);
+
+                $post->tags()->attach($tag->id);
+            }
+
+        }
+
+
 
       return redirect('/');
     }
@@ -79,9 +95,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        $post->load('comments.user');
+
+        return view('posts.show',['post'=>$post]);
     }
 
     /**

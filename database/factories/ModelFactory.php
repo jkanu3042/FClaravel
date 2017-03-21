@@ -22,3 +22,13 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Post::class, function (Faker\Generator $faker) {
+    // storage/public/images 디렉토리에 있는 파일 목록을 가져옵니다.
+    $files = Storage::files('public/images');
+
+    return [
+        'img_path' => $files[array_rand($files,1)],
+        'description' => $faker->text(),
+    ];
+});

@@ -11,6 +11,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        \App\User::truncate();
+        \App\Post::truncate();
+
+        $this->call(UsersTableSeeder::class);
+        $this->call(PostsTableSeeder::class);
+
+        // 다시 외래키 확인 옵션을 켭니다.
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
     }
 }

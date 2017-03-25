@@ -122,7 +122,21 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $imgPath = $request->img->store('public/images');
+
+        $description = $request->input('description');
+
+        $user = $request->users();
+
+        $post = Post::find($id);
+
+        $post->img_path =$imgPath;
+        $post->description = $description;
+        $post->user_id = $user->id;
+        $post->save();
+
+        return redirect('/');
+
     }
 
     /**

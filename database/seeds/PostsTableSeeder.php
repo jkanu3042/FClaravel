@@ -14,7 +14,7 @@ class PostsTableSeeder extends Seeder
         $users = \App\User::all();
 
         foreach($users as $user) {
-            $posts = factory(\App\Post::class, 10)->make();
+            $posts = factory(\App\Post::class, 1)->make();
 
             foreach($posts as $post) {
                 $user->posts()->save($post);

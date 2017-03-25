@@ -23,6 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $posts = \App\Post::with('user','comments.user')->withCount('comments')->latest()->paginate(5);
+
+        return view('home',['posts'=>$posts]);
     }
 }

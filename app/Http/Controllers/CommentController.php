@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Mail\CommentCreated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CommentController extends Controller
 {
@@ -37,11 +39,16 @@ class CommentController extends Controller
     {
         $inputs = $request->only(['post_id','content']);
 
-        Comment::create([
+        $comment = Comment::create([
             'post_id' => $inputs['post_id'],
             'content' => $inputs['content'],
             'user_id'  => \Auth::id(),
         ]);
+
+        //Mail::to($comment->post->user)->send(new CommentCreated($comment));
+        //event(new \App\Events\CommentCreated($comment));
+
+
 
         return back();
     }

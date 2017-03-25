@@ -11,7 +11,7 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at','last_login'];
 
     /**
      * The attributes that are mass assignable.
